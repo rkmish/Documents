@@ -13,7 +13,7 @@ sudo ssh -i Downloads/xxx.pem ubuntu@35.163.77.114
 3)install pyscharm
 step 1:extract downloaded tar.gz file of pycharm communtiy edition 
 step 2:/home/rohit/Downloads/pycharm-community-2017.1/bin/pycharm.sh   ---path of extracted pycharm.sh
-used while loop : for multiple listbox value by comma seperated 
+4)used while loop : for multiple listbox value by comma seperated 
 USE [MACWorkflow_DEV]
 GO
 /****** Object:  StoredProcedure [dbo].[Proc_PU_AddUserFaciltymappingInternational]    Script Date: 07/31/2017 14:37:49 ******/
