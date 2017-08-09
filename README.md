@@ -143,3 +143,48 @@ BEGIN
 	End			
 END
 
+5.Dynamic menu binding from database as per the roleID
+if (!Page.IsPostBack)
+        {
+            if (Utility.SessionUserID == null)
+            {
+                Session.Clear();
+                Session.Abandon();
+                Response.Redirect("~/UI/Common/Home.aspx");
+            }
+            string UserRoles = UserRole(Utility.SessionUserRole.ToString());
+            lblUserRole.Text = UserRoles;
+            lblUserName.Text = Utility.SessionUserName;
+            string userGradChk = Utility.Grade;
+
+            int RoleID = Convert.ToInt32(Utility.SessionUserRole);
+            dsMenu = BusinessLayer.PU_GetMenuAsPerRole(RoleID);
+
+            string menuHtml = string.Empty;
+            if (dsMenu.Tables.Count > 0)
+            {
+                menuHtml = "<ul class='topmenu'>";
+                for (int i = 0; i < dsMenu.Tables[0].Rows.Count; i++)
+                {
+                    menuHtml = menuHtml + "<li " + (i == 0 ? " class='selected-item first'" : "") + "><a href='#'><span>" + dsMenu.Tables[0].Rows[i]["ModuleName"].ToString() + "</span></a>";
+                    menuHtml = menuHtml + "<ul>";
+
+                    DataRow[] drMenu = dsMenu.Tables[1].Select("ModuleID=" + dsMenu.Tables[0].Rows[i]["ModuleID"].ToString());
+                    foreach (DataRow drMenuItem in drMenu)
+                    {
+                        menuHtml = menuHtml + "<li><a href='" + drMenuItem["MenuPath"].ToString() + "'><span>" + drMenuItem["MenuName"].ToString() + "</span></a></li>";
+                    }
+
+                    menuHtml = menuHtml + "</ul>";
+                    menuHtml = menuHtml + "</li>";
+                }
+                menuHtml = menuHtml + "</ul>";
+                navbar.InnerHtml = menuHtml;
+            }
+            else
+            {
+                string msg = " No Menu added for selected role";
+                Response.Redirect("~/ErrorForm.aspx?errmsg=" + msg);
+            }
+        }
+    }
