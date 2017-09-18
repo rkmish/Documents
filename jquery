@@ -1,0 +1,31 @@
+jquery code for multiple textarea:
+
+$("#btnSubmit").click(function (event) {
+            var out = true;
+            $('textarea').each(function (index, element) {
+                var TxtValue = element.value;
+                if (!isValid(TxtValue)) {
+                    alert("Special Characters ‘<’ / ‘>’ are not allowed in free text fields");
+                    $(this).focus();
+                    event.preventDefault();
+                    out = false;
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            });
+            var AuthorVal = $("#txtOtherAuthor").val();
+            if (!isValid(AuthorVal)) {
+                alert("Special Characters ‘<’ / ‘>’ are not allowed in free text fields");
+                $(this).focus();
+                event.preventDefault();
+                out = false;
+                return false;
+            }
+            else {
+                return true;
+            }
+            if (out == true)
+                ConfirmAlert();
+        });
